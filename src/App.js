@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { create } from 'ipfs-http-client';
 import AppModal from './components/app-modal/AppModal';
+import ImagePreview from './components/image-preview/ImagePreview';
 import UploadFileSuccess from './components/upload-file-success/UploadFileSuccess'
 import UploadForm from './components/upload-form/UploadForm'
 import './App.css';
@@ -14,6 +15,7 @@ function App() {
   const [viewName, setViewName] = useState('');
 
   const FILE_UPLOAD_SUCCESS = 'file-upload-success';
+  const IMAGE_PREVIEW = 'image-preview';
 
   /**
    * @description Effect for updating the view name when an image is uploaded;
@@ -56,9 +58,18 @@ function App() {
       case FILE_UPLOAD_SUCCESS:
         return (
           <UploadFileSuccess
-            imageUrl={imageUrl}
+            viewImage={() => {
+              setModalTitle('File On IPFS');
+              setViewName(IMAGE_PREVIEW);
+            }}
           />
         )
+      case IMAGE_PREVIEW:
+        return (
+          <ImagePreview
+            imageUrl={imageUrl}
+          />
+        );
       default:
         return (
           <UploadForm
