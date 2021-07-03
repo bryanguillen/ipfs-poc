@@ -11,9 +11,7 @@ function App() {
    * @returns {undefined}
    */
   async function onSubmit() {
-    if (image) {
-      await uploadFileToIpfs().catch(error => console.log(error));
-    }
+    await uploadFileToIpfs().catch(error => console.log(error));
   }
 
   /**
