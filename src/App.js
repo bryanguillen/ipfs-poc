@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { create } from 'ipfs-http-client';
 import AppModal from './components/app-modal/AppModal';
 import ImagePreview from './components/image-preview/ImagePreview';
+import IntroSelections from './components/intro-selections/IntroSelections';
 import UploadFileSuccess from './components/upload-file-success/UploadFileSuccess'
 import UploadForm from './components/upload-form/UploadForm'
 import './App.css';
@@ -9,12 +10,13 @@ import './App.css';
 function App() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
-  const [modalData, setModalData] = useState({ title: '', route: '' });
+  const [modalData, setModalData] = useState({ title: 'Select Action', route: '' });
   const [submittingForm, setSubmittingForm] = useState(false);
   const [uploadFormError, setUploadFormError] = useState(false);
 
   const FILE_UPLOAD_SUCCESS = 'file-upload-success';
   const IMAGE_PREVIEW = 'image-preview';
+  const UPLOAD_FORM = 'upload-form';
 
   /**
    * @description Effect for updating the view name when an image is uploaded;
@@ -58,6 +60,16 @@ function App() {
           <UploadFileSuccess
             viewImage={() => setModalData({ title: 'Image On IPFS', route: IMAGE_PREVIEW})}
           />
+        );
+      case UPLOAD_FORM:
+        return (
+          <UploadForm
+            errorExists={uploadFormError}
+            imageName={image ? image.name : ''}
+            onChange={(event) => setImage(event.target.files[0])}
+            onSubmit={onSubmit}
+            submitting={submittingForm}
+          />
         )
       case IMAGE_PREVIEW:
         return (
@@ -67,12 +79,8 @@ function App() {
         );
       default:
         return (
-          <UploadForm
-            errorExists={uploadFormError}
-            imageName={image ? image.name : ''}
-            onChange={(event) => setImage(event.target.files[0])}
-            onSubmit={onSubmit}
-            submitting={submittingForm}
+          <IntroSelections
+            showUploadForm={() => setModalData({ title: 'Upload Image', route: UPLOAD_FORM })}
           />
         )
     }
