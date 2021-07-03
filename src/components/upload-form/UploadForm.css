@@ -1,10 +1,3 @@
-.upload-form-button {
-  border-radius: 10px; /* arbitrary number */
-  color: white;
-  height: 50px;
-  width: 100%;
-}
-
 .upload-form-browse-button {
   background-color: #42253B;
 }
@@ -33,7 +26,7 @@
 }
 
 .upload-form-file-name {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
   overflow: hidden;

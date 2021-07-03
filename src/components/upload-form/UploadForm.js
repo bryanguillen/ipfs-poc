@@ -1,4 +1,3 @@
-import AppModal from '../app-modal/AppModal';
 import './UploadForm.css';
 
 function UploadForm({
@@ -9,11 +8,11 @@ function UploadForm({
   submitting
 }) {
   return (
-    <AppModal>
+    <div className="upload-form-container">
       {errorExists ? <div className="upload-form-error">Oops!  Something went wrong.  Check console.</div> : null}
       <div className="upload-form-file-name">{imageName ? imageName : 'No Image Chosen'}</div>
       <div className="upload-form-browse-button-container">
-        <button className="upload-form-button upload-form-browse-button">Browse Images</button>
+        <button className="button-secondary">Browse Images</button>
         {!submitting ? 
           <input
             accept="image/*"
@@ -41,7 +40,7 @@ function UploadForm({
           </div> :
           null
       }
-    </AppModal>
+    </div>
   );
 }
 
@@ -53,7 +52,7 @@ function SubmitButton({
   onClick
 }) {
   return (
-    <button className="upload-form-button upload-form-submit-button" onClick={onClick}>{label}</button>
+    <button className="button-primary" onClick={onClick}>{label}</button>
   );
 }
 
