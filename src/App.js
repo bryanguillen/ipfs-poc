@@ -6,7 +6,7 @@ import './App.css';
 
 function App() {
   const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState('https://ipfs.infura.io/ipfs/QmPSmP2i8eQCE5jt6DL4y8yWM2YgzbmaEVusqGRCKQN62c');
+  const [imageUrl, setImageUrl] = useState('');
   const [uploadFormError, setUploadFormError] = useState(false);
 
   /**
