@@ -1,0 +1,14 @@
+.intro-selections {
+  display: flex;
+  justify-content: center;
+}
+
+.intro-selections-button {
+  align-items: center;
+  background-color: white;
+  border: 1px solid #5628EE;
+  color: #5628EE;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
