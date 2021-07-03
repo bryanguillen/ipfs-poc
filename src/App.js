@@ -5,13 +5,18 @@ import './App.css';
 
 function App() {
   const [image, setImage] = useState(null);
+  const [uploadFormError, setUploadFormError] = useState(false);
 
   /**
    * @description Function used to handle submit
    * @returns {undefined}
    */
   async function onSubmit() {
-    await uploadFileToIpfs().catch(error => console.log(error));
+    uploadFileToIpfs()
+      .catch(error => {
+        console.log(error);
+        setUploadFormError(true);
+      });
   }
 
   /**
@@ -33,6 +38,7 @@ function App() {
   return (
     <div className="app">
       <UploadForm
+        errorExists={uploadFormError}
         imageName={image ? image.name : ''}
         onChange={(event) => setImage(event.target.files[0])}
         onSubmit={onSubmit}
