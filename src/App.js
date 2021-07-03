@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { create } from 'ipfs-http-client';
+import ImagePreview from './components/image-preview/ImagePreview';
 import UploadForm from './components/upload-form/UploadForm'
 import './App.css';
 
 function App() {
   const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState('https://ipfs.infura.io/ipfs/QmPSmP2i8eQCE5jt6DL4y8yWM2YgzbmaEVusqGRCKQN62c');
   const [uploadFormError, setUploadFormError] = useState(false);
 
   /**
@@ -13,6 +15,9 @@ function App() {
    */
   async function onSubmit() {
     uploadFileToIpfs()
+      .then(url => {
+        setImageUrl(url);
+      })
       .catch(error => {
         console.log(error);
         setUploadFormError(true);
@@ -28,8 +33,7 @@ function App() {
     try {
       const ipfsClient = create('https://ipfs.infura.io:5001/api/v0');
       const uploadedFile = await ipfsClient.add(image)
-      const url = `https://ipfs.infura.io/ipfs/${uploadedFile.path}`
-      console.log(url);
+      return `https://ipfs.infura.io/ipfs/${uploadedFile.path}`
     } catch (error) {
       throw error;
     }
@@ -37,12 +41,19 @@ function App() {
 
   return (
     <div className="app">
-      <UploadForm
-        errorExists={uploadFormError}
-        imageName={image ? image.name : ''}
-        onChange={(event) => setImage(event.target.files[0])}
-        onSubmit={onSubmit}
-      />
+      {
+        imageUrl ?
+            <ImagePreview
+              imageUrl={imageUrl}
+            />
+          :
+            <UploadForm
+              errorExists={uploadFormError}
+              imageName={image ? image.name : ''}
+              onChange={(event) => setImage(event.target.files[0])}
+              onSubmit={onSubmit}
+            />
+      }
     </div>
   );
 }
