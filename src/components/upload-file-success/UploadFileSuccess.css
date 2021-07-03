@@ -1,0 +1,20 @@
+.upload-file-success-container button:nth-of-type(2) {
+  margin-top: 10px;
+}
+
+.upload-file-success-container > div {
+  margin-top: 10px;
+}
+
+.upload-file-success-container:first-child {
+  margin-top: 0;
+}
+
+.upload-file-success-icon {
+  text-align: center;
+}
+
+.upload-file-success-url {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
