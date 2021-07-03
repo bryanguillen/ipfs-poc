@@ -1,5 +1,5 @@
 {
-  "name": "ipfs-upload-file-public",
+  "name": "ipfs-poc",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
