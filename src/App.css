@@ -6,3 +6,23 @@
   min-height: 100vh;
   padding: 10px;
 }
+
+.block-level-button {
+  display: block;
+}
+
+.button-primary {
+  background-color: #5628EE;
+}
+
+.button-secondary {
+  background-color: #42253B;
+}
+
+.button-primary,
+.button-secondary {
+  border-radius: 10px; /* arbitrary number */
+  color: white;
+  height: 50px;
+  width: 100%;
+}
