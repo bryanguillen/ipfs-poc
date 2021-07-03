@@ -1,16 +1,3 @@
-.upload-form {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 5px 5px 5px  	#9b9a9a;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  height: 420px;
-  justify-content: center;
-  padding: 10px;
-  width: 360px;
-}
-
 .upload-form-button {
   border-radius: 10px; /* arbitrary number */
   color: white;

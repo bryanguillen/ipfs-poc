@@ -1,3 +1,4 @@
+import AppModal from '../app-modal/AppModal';
 import './UploadForm.css';
 
 function UploadForm({
@@ -7,7 +8,7 @@ function UploadForm({
   onSubmit
 }) {
   return (
-    <div className="upload-form">
+    <AppModal>
       {errorExists ? <div className="upload-form-error">Oops!  Something went wrong.  Check console.</div> : null}
       <div className="upload-form-file-name">{imageName ? imageName : 'No Image Chosen'}</div>
       <div className="upload-form-browse-button-container">
@@ -27,7 +28,7 @@ function UploadForm({
           </div> :
           null
       }
-    </div>
+    </AppModal>
   );
 }
 
