@@ -2,3 +2,8 @@ body {
   background-color: #CDD9ED;
   margin: 0;
 }
+
+button {
+  border: 0;
+  cursor: pointer;
+}
