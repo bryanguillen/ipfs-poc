@@ -2,7 +2,8 @@ import './UploadForm.css';
 
 function UploadForm({
   imageName,
-  onChange
+  onChange,
+  onSubmit
 }) {
   return (
     <div className="upload-form">
@@ -18,7 +19,7 @@ function UploadForm({
         />
       </div>
       <div className="upload-form-submit-button-container">
-        <button className="upload-form-button upload-form-submit-button">Submit</button>
+        <button className="upload-form-button upload-form-submit-button" onClick={onSubmit}>Submit</button>
       </div>
     </div>
   );
