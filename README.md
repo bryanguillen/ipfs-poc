@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# IPFS POC
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Note: As of 7/3, project is still a work in progress, thus, you will see "Coming Soon"
+and incomplete code.**
 
-## Available Scripts
+## Motivation
 
-In the project directory, you can run:
+### Overview
 
-### `npm start`
+This mini-project's motivation is learning IPFS.  I believe IPFS and/or technologies
+like it are the future of the web.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Thus, in order to get familiar with this technology, I created this POC to "test things
+out".
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Really, the things I want to test out are:
 
-### `npm test`
+* Public File Uploads
+* Private File Uploads
+* DB
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Public File Uploads
 
-### `npm run build`
+The goal here is simple: Prove that the user can the user upload a simple image to IPFS 
+and then view it.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Private File Uploads
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+_Coming soon_
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The goal here is similar to previous section, with a twist: Prove that the user can upload 
+a "private" file to IPFS, where private means that only the user that uploaded the file 
+can view said file.
 
-### `npm run eject`
+### DB
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+_Coming soon_
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The goal here is a little more involved.  It's to basically create a super simple DB like
+data structure on IPFS, with the purpose of performing CRUD operations on the data stored.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+For this POC, I'll be using messages as a simple way of modeling data and interacting
+with said data on IPFS.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Project Structure
 
-## Learn More
+_Coming Soon_
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## App/How To Test
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+_Coming Soon_
 
-### Code Splitting
+### Browser Support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+App has been tested on:
+* Edge
+* Firefox
+* Chrome
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+As of this writing, it does not seem to be working on Firefox; it seems like some syntax 
+issue with the `ipfs-http-client` package.  I will need to dig a bit deeper to understand 
+what is going on.
