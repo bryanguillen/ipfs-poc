@@ -1,12 +1,24 @@
 .app-modal {
   background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 5px 5px 5px  	#9b9a9a;
+  box-shadow: 5px 5px 5px	#9b9a9a;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
   height: 420px;
-  justify-content: center;
+  flex-direction: column;
   padding: 10px;
   width: 360px;
+}
+
+.app-modal-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.app-modal-header {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
 }
