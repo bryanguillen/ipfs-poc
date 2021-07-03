@@ -7,6 +7,7 @@ import './App.css';
 function App() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
+  const [submittingForm, setSubmittingForm] = useState(false);
   const [uploadFormError, setUploadFormError] = useState(false);
 
   /**
@@ -14,12 +15,15 @@ function App() {
    * @returns {undefined}
    */
   async function onSubmit() {
+    setSubmittingForm(true);
     uploadFileToIpfs()
-      .then(url => {
+    .then(url => {
+        setSubmittingForm(false);
         setImageUrl(url);
       })
       .catch(error => {
         console.log(error);
+        setSubmittingForm(false);
         setUploadFormError(true);
       });
   }
@@ -52,6 +56,7 @@ function App() {
               imageName={image ? image.name : ''}
               onChange={(event) => setImage(event.target.files[0])}
               onSubmit={onSubmit}
+              submitting={submittingForm}
             />
       }
     </div>

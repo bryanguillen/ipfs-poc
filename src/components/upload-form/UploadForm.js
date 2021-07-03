@@ -5,7 +5,8 @@ function UploadForm({
   errorExists,
   imageName,
   onChange,
-  onSubmit
+  onSubmit,
+  submitting
 }) {
   return (
     <AppModal>
@@ -13,22 +14,46 @@ function UploadForm({
       <div className="upload-form-file-name">{imageName ? imageName : 'No Image Chosen'}</div>
       <div className="upload-form-browse-button-container">
         <button className="upload-form-button upload-form-browse-button">Browse Images</button>
-        <input
-          accept="image/*"
-          className="upload-form-file-input"
-          multiple={false}
-          onChange={onChange}
-          type="file"
-        />
+        {!submitting ? 
+          <input
+            accept="image/*"
+            className="upload-form-file-input"
+            multiple={false}
+            onChange={onChange}
+            type="file"
+          /> :
+          null
+        }
       </div>
       {
         imageName ? 
           <div className="upload-form-submit-button-container">
-            <button className="upload-form-button upload-form-submit-button" onClick={onSubmit}>Submit</button>
+            {
+              !submitting ?
+                <SubmitButton
+                  label={'Submit'}
+                  onClick={onSubmit}
+                /> :
+                <SubmitButton
+                  label={'Submitting...'}
+                />
+            }
           </div> :
           null
       }
     </AppModal>
+  );
+}
+
+/**
+ * @description Wrapper for the submit button to avoid duplicating code
+ */
+function SubmitButton({
+  label,
+  onClick
+}) {
+  return (
+    <button className="upload-form-button upload-form-submit-button" onClick={onClick}>{label}</button>
   );
 }
 
