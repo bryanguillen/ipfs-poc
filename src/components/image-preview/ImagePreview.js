@@ -1,20 +1,16 @@
-import AppModal from '../app-modal/AppModal';
 import './ImagePreview.css';
 
 function ImagePreview({
   imageUrl
 }) {
   return (
-    <AppModal>
-      <div className="image-preview-container">
-        <div className="image-preview-container-header">Image On IPFS</div>
-        <img
-          src={imageUrl}
-          className="image-preview"
-          alt="ipfs"
-        />
-      </div>
-    </AppModal>
+    <div className="image-preview-container">
+      <img
+        src={imageUrl}
+        className="image-preview"
+        alt="ipfs"
+      />
+    </div>
   );
 }
 
