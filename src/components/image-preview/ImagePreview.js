@@ -11,7 +11,7 @@ function ImagePreview({
         <img
           src={imageUrl}
           className="image-preview"
-          alt="image from ipfs"
+          alt="ipfs"
         />
       </div>
     </AppModal>
