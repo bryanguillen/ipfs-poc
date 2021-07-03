@@ -9,10 +9,9 @@ import './App.css';
 function App() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
-  const [modalTitle, setModalTitle] = useState('Upload Image')
+  const [modalData, setModalData] = useState({ title: '', route: '' });
   const [submittingForm, setSubmittingForm] = useState(false);
   const [uploadFormError, setUploadFormError] = useState(false);
-  const [viewName, setViewName] = useState('');
 
   const FILE_UPLOAD_SUCCESS = 'file-upload-success';
   const IMAGE_PREVIEW = 'image-preview';
@@ -25,8 +24,7 @@ function App() {
   useEffect(() => {
     // Do not run on init
     if (imageUrl) {
-      setViewName(FILE_UPLOAD_SUCCESS);
-      setModalTitle('File Upload Success');
+      setModalData({ title: 'File Upload Success', route: FILE_UPLOAD_SUCCESS });
     }
   }, [imageUrl]);
 
@@ -54,14 +52,11 @@ function App() {
    * @returns {Object}
    */
   function renderView() {
-    switch(viewName) {
+    switch(modalData.route) {
       case FILE_UPLOAD_SUCCESS:
         return (
           <UploadFileSuccess
-            viewImage={() => {
-              setModalTitle('File On IPFS');
-              setViewName(IMAGE_PREVIEW);
-            }}
+            viewImage={() => setModalData({ title: 'Image On IPFS', route: IMAGE_PREVIEW})}
           />
         )
       case IMAGE_PREVIEW:
@@ -100,7 +95,7 @@ function App() {
 
   return (
     <div className="app">
-      <AppModal title={modalTitle}>
+      <AppModal title={modalData.title}>
         {renderView()}
       </AppModal>
     </div>
