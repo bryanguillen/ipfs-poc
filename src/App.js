@@ -1,6 +1,12 @@
+import UploadForm from './components/upload-form/UploadForm'
+
+import './App.css';
+
 function App() {
   return (
-    <div className="app">Hello World</div>
+    <div className="app">
+      <UploadForm/>
+    </div>
   );
 }
 
