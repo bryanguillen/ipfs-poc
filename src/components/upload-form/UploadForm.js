@@ -18,9 +18,13 @@ function UploadForm({
           type="file"
         />
       </div>
-      <div className="upload-form-submit-button-container">
-        <button className="upload-form-button upload-form-submit-button" onClick={onSubmit}>Submit</button>
-      </div>
+      {
+        imageName ? 
+          <div className="upload-form-submit-button-container">
+            <button className="upload-form-button upload-form-submit-button" onClick={onSubmit}>Submit</button>
+          </div> :
+          null
+      }
     </div>
   );
 }
