@@ -16,7 +16,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-ipfs": "node ipfs-build-scripts/start-ipfs.js",
+    "start-ipfs": "jsipfs daemon",
+    "configure-ipfs": "jsipfs config",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
