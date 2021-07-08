@@ -4,14 +4,32 @@ import OrbitDb from 'orbit-db';
 import './PersonForm.css';
 
 function PersonForm() {
+  const [familyDb, setFamilyDb] = useState(null);
   const [formValues, setFormValues] = useState({ name: '', age: '' });
   const [submitting, setSubmitting] = useState(false);
 
-  let familyDb;
+  useEffect(() => {
+    (async function() {
+      await initializeOrbitDb();
+    })();
+  }, []);
 
   useEffect(() => {
-    initializeOrbitDb();
-  }, []);
+    (async function() {
+      if (familyDb !== null) {
+        await familyDb.load();
+      }
+    })();
+  }, [familyDb]);
+
+  /**
+   * @description Function used to get the next id for post
+   * @returns {Number}
+   */
+  async function getIdForPost() {
+    const posts = await familyDb.get('');
+    return posts[posts.length - 1]._id + 1;
+  }
 
   /**
    * @description Function used to initialize the db
@@ -21,10 +39,7 @@ function PersonForm() {
   async function initializeOrbitDb() {
     const ipfsClient = create('http://localhost:5001');
     const orbitDb = await OrbitDb.createInstance(ipfsClient);
-
-    familyDb = await orbitDb.docstore('family', { accessController: { write: [orbitDb.identity.id] } });
-
-    await familyDb.load();
+    setFamilyDb(await orbitDb.docstore('family', { accessController: { write: [orbitDb.identity.id] } }));
   }
 
   /**
@@ -42,14 +57,27 @@ function PersonForm() {
    * @param {Object} event
    * @returns {undefined}
    */
-  function onSubmit(event) {
-    event.preventDefault();
-    setSubmitting(true);
-    setTimeout(() => setSubmitting(false), 3000);
+  async function onSubmit(event) {
+    try {
+      event.preventDefault();
+      setSubmitting(true);
+      
+      const { name, age } = formValues;
+      const _id = await getIdForPost();
+      
+      await familyDb.put({ _id, name, age });
+
+      setFormValues({ name: '', age: '' });
+      setSubmitting(false);
+    } catch (error) {
+      setSubmitting(false);
+      console.log(error);
+    }
+
   }
 
   return (
-    <form className="person-form" onSubmit={onSubmit}>
+    <form className="person-form" onSubmit={familyDb ? onSubmit : undefined}>
       <div className="person-form-row">
         <label htmlFor="name" className="person-form-label">Full Name</label>
         <input name="name" id="name" className="person-form-input" value={formValues.name} onChange={onChange}/>
