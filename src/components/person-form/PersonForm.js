@@ -1,9 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { create } from 'ipfs-http-client';
+import OrbitDb from 'orbit-db';
 import './PersonForm.css';
 
 function PersonForm() {
   const [formValues, setFormValues] = useState({ name: '', age: '' });
   const [submitting, setSubmitting] = useState(false);
+
+  let familyDb;
+
+  useEffect(() => {
+    initializeOrbitDb();
+  }, []);
+
+  /**
+   * @description Function used to initialize the db
+   * @returns {undefined}
+   * @TODO Refactor ipfsClient so that only App.js declares the singleton instance
+   */
+  async function initializeOrbitDb() {
+    const ipfsClient = create('http://localhost:5001');
+    const orbitDb = await OrbitDb.createInstance(ipfsClient);
+
+    familyDb = await orbitDb.docstore('family', { accessController: { write: [orbitDb.identity.id] } });
+
+    await familyDb.load();
+  }
 
   /**
    * @description on change handler for input fields
