@@ -3,6 +3,7 @@ import { create } from 'ipfs-http-client';
 import AppModal from './components/app-modal/AppModal';
 import ImagePreview from './components/image-preview/ImagePreview';
 import IntroSelections from './components/intro-selections/IntroSelections';
+import PersonForm from './components/person-form/PersonForm';
 import UploadFileSuccess from './components/upload-file-success/UploadFileSuccess'
 import UploadForm from './components/upload-form/UploadForm'
 import './App.css';
@@ -16,6 +17,7 @@ function App() {
 
   const FILE_UPLOAD_SUCCESS = 'file-upload-success';
   const IMAGE_PREVIEW = 'image-preview';
+  const PERSON_FORM = 'person-form';
   const UPLOAD_FORM = 'upload-form';
 
   /**
@@ -77,9 +79,14 @@ function App() {
             imageUrl={imageUrl}
           />
         );
+      case PERSON_FORM:
+        return (
+          <PersonForm/>
+        );
       default:
         return (
           <IntroSelections
+            showDbInteractionUi={() => setModalData({ title: 'Fill Out Form', route: PERSON_FORM })}
             showUploadForm={() => setModalData({ title: 'Upload Image', route: UPLOAD_FORM })}
           />
         )
