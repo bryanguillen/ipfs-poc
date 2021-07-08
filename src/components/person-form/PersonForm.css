@@ -1,0 +1,16 @@
+.person-form-input {
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+}
+
+.person-form-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.person-form-row:nth-of-type(1),
+.person-form-row:nth-of-type(2) {
+  margin-bottom: 10px;
+}
