@@ -93,9 +93,10 @@ function App() {
    */
   async function uploadFileToIpfs() {
     try {
-      const ipfsClient = create('https://ipfs.infura.io:5001/api/v0');
+      const ipfsClient = create('http://localhost:5001');
       const uploadedFile = await ipfsClient.add(image)
-      return `https://ipfs.infura.io/ipfs/${uploadedFile.path}`
+      console.log(uploadedFile);
+      return `http://localhost:9090/ipfs/${uploadedFile.path}`;
     } catch (error) {
       throw error;
     }
