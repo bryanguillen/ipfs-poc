@@ -21,7 +21,7 @@ Really, the things I want to test out are:
 
 ### Public File Uploads
 
-The goal here is simple: Prove that the user can the user upload a simple image to IPFS 
+The goal here is simple: Prove that the user can upload a simple image to IPFS 
 and then view it.
 
 ### Private File Uploads
