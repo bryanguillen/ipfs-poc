@@ -17,7 +17,7 @@ function UploadForm({
         <button className="button-secondary">Browse Images</button>
         {!submitting ? 
           <input
-            accept="image/*"
+            accept="image/*,video/*"
             className="upload-form-file-input"
             multiple={false}
             onChange={onChange}
@@ -61,7 +61,7 @@ function PrivateUploadCheckbox({
 }) {
   return (
     <div className="private-upload-checkbox-container">
-      <label htmLFor="private-upload-checkbox">Private Upload? </label>
+      <label htmlFor="private-upload-checkbox">Private Upload? </label>
       <input
         checked={checked}
         id="private-upload-checkbox"
