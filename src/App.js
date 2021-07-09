@@ -36,6 +36,19 @@ function App() {
   }, [imageUrl]);
 
   /**
+   * @description On change for the image
+   * @param {Object} event
+   * @returns {undefined}
+   */
+  function onChange(event) {
+    const { files } = event.target;
+
+    if (files.length > 0) {
+      setImage(files[0]);
+    }
+  }
+
+  /**
    * @description Function used to handle submit
    * @returns {undefined}
    */
@@ -71,7 +84,7 @@ function App() {
           <UploadForm
             errorExists={uploadFormError}
             imageName={image ? image.name : ''}
-            onChange={(event) => setImage(event.target.files[0])}
+            onChange={onChange}
             onSubmit={onSubmit}
             privateUploadChecked={privateUploadChecked}
             setPrivateUploadChecked={() => setPrivateUploadChecked(previousState => !previousState)}
