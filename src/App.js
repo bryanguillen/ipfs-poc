@@ -13,6 +13,7 @@ function App() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
   const [modalData, setModalData] = useState({ title: 'Select Action', route: '' });
+  const [privateUploadChecked, setPrivateUploadChecked] = useState(false);
   const [submittingForm, setSubmittingForm] = useState(false);
   const [uploadFormError, setUploadFormError] = useState(false);
 
@@ -72,6 +73,8 @@ function App() {
             imageName={image ? image.name : ''}
             onChange={(event) => setImage(event.target.files[0])}
             onSubmit={onSubmit}
+            privateUploadChecked={privateUploadChecked}
+            setPrivateUploadChecked={() => setPrivateUploadChecked(previousState => !previousState)}
             submitting={submittingForm}
           />
         )
