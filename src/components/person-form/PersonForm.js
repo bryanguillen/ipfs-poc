@@ -3,7 +3,9 @@ import { create } from 'ipfs-http-client';
 import OrbitDb from 'orbit-db';
 import './PersonForm.css';
 
-function PersonForm() {
+function PersonForm({
+  seeRecords
+}) {
   const [familyDb, setFamilyDb] = useState(null);
   const [formValues, setFormValues] = useState({ name: '', age: '' });
   const [submitting, setSubmitting] = useState(false);
@@ -88,6 +90,7 @@ function PersonForm() {
       </div>
       <div className="person-form-row person-form-submit-button-container">
         <button className="person-form-submit-button button-primary" type="submit">{submitting ? 'Submitting...' : 'Submit'}</button>
+        <button className="button-secondary" onClick={seeRecords}>See People</button>
       </div>
     </form>
   );
