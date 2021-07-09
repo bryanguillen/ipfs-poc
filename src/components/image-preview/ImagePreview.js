@@ -5,11 +5,9 @@ function ImagePreview({
 }) {
   return (
     <div className="image-preview-container">
-      <img
-        src={imageUrl}
-        className="image-preview"
-        alt="ipfs"
-      />
+      <video>
+        <source src={imageUrl}/>
+      </video>
     </div>
   );
 }
