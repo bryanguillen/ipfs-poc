@@ -8,14 +8,18 @@ import StoredPeople from './components/stored-people/StoredPeople';
 import UploadFileSuccess from './components/upload-file-success/UploadFileSuccess'
 import UploadForm from './components/upload-form/UploadForm'
 import './App.css';
+import axios from 'axios';
 
 function App() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
+  const [decryptedUrl, setDecryptedUrl] = useState('')
   const [modalData, setModalData] = useState({ title: 'Select Action', route: '' });
   const [privateUploadChecked, setPrivateUploadChecked] = useState(false);
   const [submittingForm, setSubmittingForm] = useState(false);
   const [uploadFormError, setUploadFormError] = useState(false);
+
+  const [keys, setKeys] = useState({ public: null, private: null, aes: null, iv: null });
 
   const FILE_UPLOAD_SUCCESS = 'file-upload-success';
   const IMAGE_PREVIEW = 'image-preview';
@@ -30,10 +34,35 @@ function App() {
    */
   useEffect(() => {
     // Do not run on init
-    if (imageUrl) {
+    if (imageUrl && keys.aes !== null) {
+      /**************************************************
+       * DECRYPT
+       **************************************************/
+      axios.get(imageUrl, {
+        responseType: 'arraybuffer',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/pdf'
+        }
+      })
+        .then(response => response.data)
+        .then(async encryptedFile => {
+          const textDecoder = new TextDecoder();
+          const decryptedAes = await crypto.subtle.decrypt('RSA-OAEP', keys.privateKey, keys.aes);
+          const decodedKey = textDecoder.decode(decryptedAes);
+          const importedKey = await crypto.subtle.importKey('jwk', JSON.parse(decodedKey), 'AES-GCM', true, ['decrypt', 'encrypt']);
+          const decryptedIv = await crypto.subtle.decrypt('RSA-OAEP', keys.privateKey, keys.iv);
+          const decryptedFile = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: decryptedIv }, importedKey, encryptedFile);
+          setDecryptedUrl(URL.createObjectURL(new File([decryptedFile], 'hello-world.mp4')));
+        });
+    }
+  }, [imageUrl, keys]);
+  
+  useEffect(() => {
+    if (decryptedUrl) {
       setModalData({ title: 'File Upload Success', route: FILE_UPLOAD_SUCCESS });
     }
-  }, [imageUrl]);
+  }, [decryptedUrl])
 
   /**
    * @description On change for the image
@@ -55,8 +84,7 @@ function App() {
   async function onSubmit() {
     setSubmittingForm(true);
     uploadFileToIpfs()
-      .then(url => {
-        setImageUrl(url);
+      .then(() => {
         setSubmittingForm(false);
       })
       .catch(error => {
@@ -94,7 +122,7 @@ function App() {
       case IMAGE_PREVIEW:
         return (
           <ImagePreview
-            imageUrl={imageUrl}
+            imageUrl={decryptedUrl}
           />
         );
       case PERSON_FORM:
@@ -124,9 +152,55 @@ function App() {
    */
   async function uploadFileToIpfs() {
     try {
-      const ipfsClient = create('http://localhost:5001');
-      const uploadedFile = await ipfsClient.add(image);
-      return `http://localhost:9090/ipfs/${uploadedFile.path}`;
+      const ipfsClient = create('http://localhost:5002');
+      let imageToBeUploaded;
+
+      if (privateUploadChecked) {
+        /**************************************************
+         * ENCRYPT
+         **************************************************/
+        const key = await crypto.subtle.generateKey(
+          {
+            name: "AES-GCM",
+            length: 256
+          },
+          true,
+          ["encrypt", "decrypt"]
+        );
+        const exportedKeyStringified = JSON.stringify(await crypto.subtle.exportKey('jwk', key));
+        const textEncoder = new TextEncoder();
+        const encodedKey = textEncoder.encode(exportedKeyStringified);
+        const rsaKeys = await crypto.subtle.generateKey(
+          {
+            name: "RSA-OAEP",
+            modulusLength: 4096,
+            publicExponent: new Uint8Array([1, 0, 1]),
+            hash: "SHA-256"
+          },
+          true,
+          ["encrypt", "decrypt"]
+        );
+        const imageBuffer = await toArrayBuffer(image);
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const encryptedFile = await crypto.subtle.encrypt(
+          {
+            name: "AES-GCM",
+            iv
+          },
+          key,
+          imageBuffer
+        );
+        const encryptedAes = await crypto.subtle.encrypt('RSA-OAEP', rsaKeys.publicKey, encodedKey);
+        const encryptedIv = await crypto.subtle.encrypt('RSA-OAEP', rsaKeys.publicKey, iv);
+
+        const uploadedFile = await ipfsClient.add(encryptedFile);
+
+        setKeys({ publicKey: rsaKeys.publicKey, privateKey: rsaKeys.privateKey, aes: encryptedAes, iv: encryptedIv});
+        setImageUrl(`http://localhost:9090/ipfs/${uploadedFile.path}`);
+      } else {
+        const uploadedFile = await ipfsClient.add(image);
+        return `http://localhost:9090/ipfs/${uploadedFile.path}`;
+      }
     } catch (error) {
       throw error;
     }
@@ -139,6 +213,20 @@ function App() {
       </AppModal>
     </div>
   );
+}
+
+/**
+ * @description Function used to get a buffer from a file, which is useful when encrypting
+ * @param {Object} file
+ * @returns {Promise}
+ */
+function toArrayBuffer(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 }
 
 export default App;
