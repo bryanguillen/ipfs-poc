@@ -112,7 +112,7 @@ function App() {
   async function uploadFileToIpfs() {
     try {
       const ipfsClient = create('http://localhost:5001');
-      const uploadedFile = await ipfsClient.add(image)
+      const uploadedFile = await ipfsClient.add(image);
       return `http://localhost:9090/ipfs/${uploadedFile.path}`;
     } catch (error) {
       throw error;
