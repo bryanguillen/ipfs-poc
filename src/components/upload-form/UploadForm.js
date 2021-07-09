@@ -5,7 +5,9 @@ function UploadForm({
   imageName,
   onChange,
   onSubmit,
-  submitting
+  submitting,
+  privateUploadChecked,
+  setPrivateUploadChecked
 }) {
   return (
     <div className="upload-form-container">
@@ -40,6 +42,33 @@ function UploadForm({
           </div> :
           null
       }
+      <PrivateUploadCheckbox
+        checked={privateUploadChecked}
+        setValue={setPrivateUploadChecked}
+      />
+    </div>
+  );
+}
+
+/**
+ * @description Private upload checkbox component
+ * @param {Object} props
+ * @returns {Object}
+ */
+function PrivateUploadCheckbox({
+  checked,
+  setValue
+}) {
+  return (
+    <div className="private-upload-checkbox-container">
+      <label htmLFor="private-upload-checkbox">Private Upload? </label>
+      <input
+        checked={checked}
+        id="private-upload-checkbox"
+        name="private-upload-checkbox"
+        onChange={setValue}
+        type="checkbox"
+      />
     </div>
   );
 }
